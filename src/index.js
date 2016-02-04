@@ -37,10 +37,13 @@ export default function snabbdomVirtualize(element) {
     }
 
     // Build up set of children.
-    const childNodes = [];
+    let childNodes = null;
     const children = element.childNodes;
-    for (var i = 0; i < children.length; i++) {
-        childNodes.push(snabbdomVirtualize(children.item(i)));
+    if (children.length > 0) {
+        childNodes = [];
+        for (var i = 0; i < children.length; i++) {
+            childNodes.push(snabbdomVirtualize(children.item(i)));
+        }
     }
     return h(element.tagName.toLowerCase(), data, childNodes);
 }
