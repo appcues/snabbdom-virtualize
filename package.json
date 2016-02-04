@@ -13,6 +13,7 @@
     "url": "https://github.com/rayd/snabbdom-virtualize.git"
   },
   "scripts": {
+    "prepublish": "npm run build",
     "build": "babel src/index.js --out-file index.js",
     "watch": "babel src/index.js --watch --out-file index.js",
     "test": "karma start test/karma.conf.js"
