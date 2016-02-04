@@ -66,8 +66,18 @@ function getStyle(element) {
     const styles = {};
     for (let i = 0; i < style.length; i++) {
         const name = style.item(i);
-        styles[name] = style.getPropertyValue(name);
+        const transformedName = transformName(name);
+        styles[transformedName] = style.getPropertyValue(name);
     }
     return styles;
 }
 
+function transformName(name) {
+    // Replace -a with A to help camel case style property names.
+    name = name.replace( /-(\w)/g, function _replace( $1, $2 ) {
+        return $2.toUpperCase();
+    });
+    // Handle properties that start with a -.
+    const firstChar = name.charAt(0).toLowerCase();
+    return `${firstChar}${name.substring(1)}`;
+}
