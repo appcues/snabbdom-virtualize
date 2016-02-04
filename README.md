@@ -1,4 +1,4 @@
-# snabbdom-virtualize
+# snabbdom-virtualize [![Build Status](https://travis-ci.org/appcues/snabbdom-virtualize.svg?branch=master)](https://travis-ci.org/appcues/snabbdom-virtualize)
 
 Library for turning strings and DOM nodes into virtual DOM nodes compatible with [Snabbdom](https://github.com/paldepind/snabbdom).
 
