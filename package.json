@@ -1,0 +1,35 @@
+{
+  "name": "snabbdom-virtualize",
+  "version": "0.1.0",
+  "description": "Library for turning strings and DOM nodes into virtual DOM nodes compatible with snabbdom.",
+  "author": {
+    "name": "Ray Di Ciaccio",
+    "email": "ray@appcues.com"
+  },
+  "license": "MIT",
+  "bugs": "https://github.com/rayd/snabbdom-virtualize/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rayd/snabbdom-virtualize.git"
+  },
+  "scripts": {
+    "build": "babel src/index.js --out-file index.js",
+    "watch": "babel src/index.js --watch --out-file index.js"
+  },
+  "main": "index.js",
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.2.0",
+    "karma": "^0.13.19",
+    "karma-chai": "^0.1.0",
+    "karma-chai-as-promised": "^0.1.2",
+    "karma-mocha": "^0.2.1",
+    "mocha": "^2.4.5",
+    "snabbdom": "^0.3.0"
+  },
+  "peerDependencies": {
+    "snabbdom": "^0.3.0"
+  }
+}
