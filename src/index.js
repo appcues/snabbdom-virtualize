@@ -13,11 +13,15 @@ export default function snabbdomVirtualize(element) {
 
     // Special values: style, class. We don't include these in the attrs hash
     // of the VNode.
-    const data = {
-        class: getClasses(element),
-        style: getStyle(element),
-        attrs: {}
-    };
+    const data = {};
+    const classes = getClasses(element);
+    if (Object.keys(classes).length !== 0) {
+        data.class = classes;
+    }
+    const style = getStyle(element);
+    if (Object.keys(style).length !== 0) {
+        data.style = style;
+    }
 
     // Build up set of attributes on the element.
     const attributes = element.attributes;
@@ -25,6 +29,9 @@ export default function snabbdomVirtualize(element) {
         const attr = attributes.item(i);
         const name = attr.name;
         if (name !== 'style' && name !== 'class') {
+            if (!data.attrs) {
+                data.attrs = {};
+            }
             data.attrs[name] = attr.value;
         }
     }
