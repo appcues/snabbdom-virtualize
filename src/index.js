@@ -2,6 +2,29 @@ import h from 'snabbdom/h';
 import VNode from 'snabbdom/vnode';
 
 export default function snabbdomVirtualize(element) {
+    if (!element) {
+        return null;
+    }
+
+    // First thing to check is if a string is passed in.
+    if (typeof element === 'string') {
+        // General strategy here:
+        // Throw the string inside an element as innerHTML to get it parsed into
+        // DOM nodes. Then go and pull out the parsed nodes.
+        const el = document.createElement('div');
+        el.innerHTML = element;
+
+        // There should only be one top-level node in the string. Throw an error
+        // otherwise.
+        if (el.childNodes.length > 1) {
+            throw new Error('Cannot virtualize multiple top-level nodes.');
+        }
+        else if (el.childNodes.length === 1) {
+            // Pull out the top-level node and run it through the virtualize fn.
+            return snabbdomVirtualize(el.childNodes.item(0));
+        }
+    }
+
     // If our node is a text node, then we only want to set the `text` part of
     // the VNode.
     if (element.nodeType === Node.TEXT_NODE) {
