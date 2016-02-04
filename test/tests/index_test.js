@@ -26,6 +26,16 @@ describe("virtualize", () => {
         }));
     });
 
+    it("should handle data-* attributes correctly", () => {
+        const el = document.createElement('div');
+        el.setAttribute('data-test-val', 'something');
+        expect(virtualize(el)).to.deep.equal(
+            h('div', {
+                attrs: { 'data-test-val': 'something' }
+            })
+        );
+    });
+
     it("should handle nodes with children", () => {
         const top = createElement('div', 'container', {
             style: 'position: absolute'
@@ -81,8 +91,46 @@ describe("virtualize", () => {
         );
     });
 
-    it("should handle a single node string with no children");
-    it("should throw an error when there's more than one top-level node passed in the string");
+    it("should handle a single node string with no children", () => {
+        expect(virtualize('<span class="foo" style="background-color: blue; padding-left: 5px;" dir="rtl" data-test-attr="test" />'))
+            .to.deep.equal(
+                h('span', {
+                    class: { foo: true },
+                    style: {
+                        backgroundColor: 'blue',
+                        paddingLeft: '5px'
+                    },
+                    attrs: {
+                        dir: 'rtl',
+                        'data-test-attr': 'test'
+                    }
+                })
+            );
+
+        expect(virtualize('<span>This is something.</span>'))
+            .to.deep.equal(
+                h('span', [
+                    VNode(undefined, undefined, undefined, 'This is something.')
+                ])
+            );
+    });
+
+    it("should handle a single text node", () => {
+        expect(virtualize('Text content!')).to.deep.equal(
+            VNode(undefined, undefined, undefined, 'Text content!')
+        );
+    });
+
+    it("should return null when given nothing", () => {
+        expect(virtualize()).to.be.null;
+        expect(virtualize('')).to.be.null;
+    });
+
+    it("should throw an error when there's more than one top-level node passed in the string", () => {
+        expect(() => {
+            virtualize('<div><h1>Something</h1></div><span>Something more</span>')
+        }).to.throw('Cannot virtualize multiple top-level nodes.');
+    });
 });
 
 function createElement(tag, classes, attrs) {

@@ -49,4 +49,4 @@ This will output a compiled `index.js` file in the root directory.
 
 ### Tests
 
-Tests can be run with `npm run test`.
+Tests can be run with `npm test`.
