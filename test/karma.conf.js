@@ -1,7 +1,9 @@
 "use strict";
 
 module.exports = function (config) {
-    config.set({
+    var isCI = process.env['CI'];
+
+    var baseConfig = {
         frameworks: ['mocha', 'chai'],
 
         files: [
@@ -50,10 +52,51 @@ module.exports = function (config) {
         ],
 
         // If browser does not capture in given timeout [ms], kill it
-        captureTimeout: 60000,
+        captureTimeout: 120000,
 
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit
         singleRun: true
-    });
+    };
+
+    if (isCI) {
+        // Open Sauce config.
+        baseConfig.sauceLabs = {
+            testName: 'snabbdom-virtualize unit tests',
+            recordScreenshots: false
+        };
+        baseConfig.customLaunchers = {
+            'SL_Chrome': {
+                base: 'SauceLabs',
+                platform: 'OS X 10.11',
+                browserName: 'chrome'
+            },
+            'SL_Firefox': {
+                base: 'SauceLabs',
+                platform: 'OS X 10.11',
+                browserName: 'firefox'
+            },
+            'SL_Edge': {
+                base: 'SauceLabs',
+                platform: 'Windows 10',
+                browserName: 'microsoftedge'
+            },
+            'SL_IE_9': {
+                base: 'SauceLabs',
+                browserName: 'internet explorer',
+                version: '9.0',
+                platform: 'Windows 7'
+            },
+            'SL_Safari_9': {
+                base: 'SauceLabs',
+                browserName: 'safari',
+                version: '9.0',
+                platform: 'OS X 10.11'
+            }
+        };
+        baseConfig.reporters.push('saucelabs');
+        baseConfig.browsers = Object.keys(baseConfig.customLaunchers);
+    }
+
+    config.set(baseConfig);
 }
