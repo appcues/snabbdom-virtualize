@@ -14,8 +14,8 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "babel src/index.js --out-file index.js",
-    "watch": "babel src/index.js --watch --out-file index.js",
+    "build": "webpack --config webpack.config.js",
+    "watch": "webpack --watch --config webpack.config.js",
     "test": "karma start test/karma.conf.js"
   },
   "main": "index.js",
