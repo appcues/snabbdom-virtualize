@@ -1,6 +1,6 @@
 {
   "name": "snabbdom-virtualize",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Library for turning strings and DOM nodes into virtual DOM nodes compatible with snabbdom.",
   "author": {
     "name": "Ray Di Ciaccio",
