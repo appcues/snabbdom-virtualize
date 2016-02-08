@@ -131,6 +131,22 @@ describe("virtualize", () => {
             virtualize('<div><h1>Something</h1></div><span>Something more</span>')
         }).to.throw('Cannot virtualize multiple top-level nodes.');
     });
+
+    it("should handle on* event listeners", () => {
+        const spy = sinon.spy();
+        const spy2 = sinon.spy();
+        const el = createElement('div');
+        el.onclick = spy;
+        el.onblur = spy2;
+        expect(virtualize(el)).to.deep.equal(
+            h('div', {
+                on: {
+                    click: spy,
+                    blur: spy2
+                }
+            })
+        );
+    });
 });
 
 function createElement(tag, classes, attrs) {
