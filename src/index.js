@@ -1,5 +1,6 @@
 import h from 'snabbdom/h';
 import VNode from 'snabbdom/vnode';
+import listeners from './event-listeners';
 
 export default function snabbdomVirtualize(element) {
     if (!element) {
@@ -57,6 +58,17 @@ export default function snabbdomVirtualize(element) {
             }
             data.attrs[name] = attr.value;
         }
+    }
+
+    // Check for event listeners.
+    const on = {};
+    listeners.forEach((key) => {
+        if (element[key]) {
+            on[key.substring(2)] = element[key];
+        }
+    });
+    if (Object.keys(on).length > 0) {
+        data.on = on;
     }
 
     // Build up set of children.
