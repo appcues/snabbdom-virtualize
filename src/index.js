@@ -17,7 +17,7 @@ export default function snabbdomVirtualize(element) {
 
         // There should only be one top-level node in the string. Throw an error
         // otherwise.
-        const childNodes = [...el.childNodes];
+        const childNodes = Array.prototype.slice.call(el.childNodes);
         if (childNodes.length === 1) {
             return snabbdomVirtualize(childNodes[0]);
         }

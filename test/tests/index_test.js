@@ -128,7 +128,6 @@ describe("virtualize", () => {
 
     it("should handle multiple top-level nodes, returning them as an array", () => {
         const actual = virtualize('<div><h1>Something</h1></div><span>Something more</span>');
-        console.log(actual);
         expect(actual).to.deep.equal([
             h('div', [
                 h('h1', ['Something'])
