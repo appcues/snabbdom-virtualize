@@ -17,12 +17,12 @@ export default function snabbdomVirtualize(element) {
 
         // There should only be one top-level node in the string. Throw an error
         // otherwise.
-        if (el.childNodes.length > 1) {
-            throw new Error('Cannot virtualize multiple top-level nodes.');
+        const childNodes = Array.prototype.slice.call(el.childNodes);
+        if (childNodes.length === 1) {
+            return snabbdomVirtualize(childNodes[0]);
         }
-        else if (el.childNodes.length === 1) {
-            // Pull out the top-level node and run it through the virtualize fn.
-            return snabbdomVirtualize(el.childNodes.item(0));
+        else {
+            return childNodes.map((child) => { return snabbdomVirtualize(child); });
         }
     }
 
