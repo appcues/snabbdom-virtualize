@@ -126,10 +126,15 @@ describe("virtualize", () => {
         expect(virtualize('')).to.be.null;
     });
 
-    it("should throw an error when there's more than one top-level node passed in the string", () => {
-        expect(() => {
-            virtualize('<div><h1>Something</h1></div><span>Something more</span>')
-        }).to.throw('Cannot virtualize multiple top-level nodes.');
+    it("should handle multiple top-level nodes, returning them as an array", () => {
+        const actual = virtualize('<div><h1>Something</h1></div><span>Something more</span>');
+        console.log(actual);
+        expect(actual).to.deep.equal([
+            h('div', [
+                h('h1', ['Something'])
+            ]),
+            h('span', ['Something more'])
+        ]);
     });
 
     it("should handle on* event listeners", () => {
