@@ -16,24 +16,53 @@ Require/import it.
 import virtualize from 'snabbdom-virtualize';
 
 // Require.
-var virtualize = require('snabbdom-virtualize');
+let virtualize = require('snabbdom-virtualize');
 ```
 
 Pass it a set of DOM nodes or a string representing DOM nodes with one root node.
 
 ```javascript
 // Actual DOM nodes
-var topNode = document.createElement('div');
-var textNode = document.createTextNode('Click ');
-var linkNode = document.createElement('a');
+let topNode = document.createElement('div');
+let textNode = document.createTextNode('Click ');
+let linkNode = document.createElement('a');
 linkNode.setAttribute('href', 'http://example.com');
 linkNode.textContent = 'here';
 topNode.appendChild(textNode);
 topNode.appendChild(linkNode);
-var vnode = virtualize(topNode);
+let vnode = virtualize(topNode);
+
 
 // String
-var vnode = virtualize('<div>Click <a href="http://example.com">here</a>');
+let vnode = virtualize('<div>Click <a href="http://example.com">here</a>');
+```
+
+#### Using modules à la carte
+
+If you'd prefer to import just the function for virtualizing DOM nodes or just
+the function for virtualizing HTML strings, you're in luck. Just import
+`snabbdom-virtualize/nodes` or `snabbdom-virtualize/strings` and use in the
+same way:
+
+```javascript
+// DOM nodes.
+import virtualize from 'snabbdom-virtualize/nodes';
+
+let topNode = document.createElement('div');
+let textNode = document.createTextNode('Click ');
+let linkNode = document.createElement('a');
+linkNode.setAttribute('href', 'http://example.com');
+linkNode.textContent = 'here';
+topNode.appendChild(textNode);
+topNode.appendChild(linkNode);
+let vnode = virtualize(topNode);
+
+
+// HTML strings.
+import virtualize from 'snabbdom-virtualize/strings';
+
+let vnode = virtualize('<div>Click <a href="http://example.com">here</a>');
+
 ```
 
 ### Project setup
@@ -45,7 +74,7 @@ npm install
 npm run build
 ```
 
-This will output a compiled `index.js` file in the root directory.
+This will output compiled files in the `lib` directory.
 
 ### Tests
 
