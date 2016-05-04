@@ -14,11 +14,11 @@
   },
   "scripts": {
     "prepublish": "npm run build",
-    "build": "webpack --config webpack.config.js",
-    "watch": "webpack --watch --config webpack.config.js",
+    "build": "babel src -d lib",
+    "watch": "npm run build -- --watch",
     "test": "karma start test/karma.conf.js"
   },
-  "main": "index.js",
+  "main": "lib/index.js",
   "devDependencies": {
     "babel-cli": "^6.3.17",
     "babel-loader": "^6.2.2",

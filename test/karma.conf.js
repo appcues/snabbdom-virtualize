@@ -1,7 +1,5 @@
 "use strict";
 
-var webpackConfig = require('../webpack.config.js');
-
 module.exports = function (config) {
     var isCI = process.env['CI'];
 
@@ -9,16 +7,22 @@ module.exports = function (config) {
         frameworks: ['mocha', 'sinon', 'chai'],
 
         files: [
-            'tests/index_test.js'
+            'tests/**/*.js'
         ],
 
         preprocessors: {
-            'tests/index_test.js': ['webpack', 'sourcemap']
+            'tests/**/*.js': ['webpack', 'sourcemap']
         },
 
         webpack: {
             devtool: 'inline-source-map',
-            module: webpackConfig.module
+            module: {
+                loaders: [{
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    loader: 'babel'
+                }]
+            }
         },
 
         reporters: [
