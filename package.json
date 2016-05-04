@@ -40,5 +40,8 @@
   },
   "peerDependencies": {
     "snabbdom": "^0.3.0"
+  },
+  "dependencies": {
+    "html-parse-stringify": "^1.0.2"
   }
 }

@@ -1,5 +1,5 @@
 import h from 'snabbdom/h';
-import VNode from 'snabbdom/vnode';
+import { createTextVNode, transformName } from './utils';
 import listeners from './event-listeners';
 
 export default function snabbdomVirtualize(element) {
@@ -10,7 +10,7 @@ export default function snabbdomVirtualize(element) {
     // If our node is a text node, then we only want to set the `text` part of
     // the VNode.
     if (element.nodeType === Node.TEXT_NODE) {
-        return VNode(undefined, undefined, undefined, element.textContent);
+        return createTextVNode(element.textContent);
     }
 
     // If not a text node, then build up a VNode based on the element's tag
@@ -86,14 +86,4 @@ function getStyle(element) {
         styles[transformedName] = style.getPropertyValue(name);
     }
     return styles;
-}
-
-function transformName(name) {
-    // Replace -a with A to help camel case style property names.
-    name = name.replace( /-(\w)/g, function _replace( $1, $2 ) {
-        return $2.toUpperCase();
-    });
-    // Handle properties that start with a -.
-    const firstChar = name.charAt(0).toLowerCase();
-    return `${firstChar}${name.substring(1)}`;
 }
