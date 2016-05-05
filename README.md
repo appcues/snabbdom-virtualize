@@ -65,6 +65,22 @@ let vnode = virtualize('<div>Click <a href="http://example.com">here</a>');
 
 ```
 
+#### Hooks
+
+You can register a `create` hook with any of the `virtualize` functions. This will be called once for each vnode that was created. It's called after the virtualization process is completed. The function receives one argument - the `VNode` that was created.
+
+```javascript
+// The function passed as the 'create' hook is called 3 times: once for the
+// <div>, once for the <span> and once for the text node inside the <span>.
+virtualize("<div><span>Hi!</span></div>", {
+    hooks: {
+        create: function(vnode) { ... }
+    }
+});
+```
+
+Hooks allow you to perform some operations on your VNodes after virtualization but before patching with snabbdom.
+
 ### Project setup
 
 Written in ES6, compiled using Babel. To get started:
