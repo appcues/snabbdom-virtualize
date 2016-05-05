@@ -2,15 +2,25 @@ import h from 'snabbdom/h';
 import { createTextVNode, transformName } from './utils';
 import listeners from './event-listeners';
 
-export default function snabbdomVirtualize(element) {
+export default function virtualizeNodes(element, options = {}) {
     if (!element) {
         return null;
     }
 
+    const createdVNodes = [];
+    const vnode = convertNode(element, createdVNodes);
+    options.hooks && options.hooks.create && createdVNodes.forEach((node) => { options.hooks.create(node); });
+    return vnode;
+}
+
+
+function convertNode(element, createdVNodes) {
     // If our node is a text node, then we only want to set the `text` part of
     // the VNode.
     if (element.nodeType === Node.TEXT_NODE) {
-        return createTextVNode(element.textContent);
+        const newNode = createTextVNode(element.textContent);
+        createdVNodes.push(newNode);
+        return newNode
     }
 
     // If not a text node, then build up a VNode based on the element's tag
@@ -58,10 +68,12 @@ export default function snabbdomVirtualize(element) {
     if (children.length > 0) {
         childNodes = [];
         for (var i = 0; i < children.length; i++) {
-            childNodes.push(snabbdomVirtualize(children.item(i)));
+            childNodes.push(convertNode(children.item(i), createdVNodes));
         }
     }
-    return h(element.tagName.toLowerCase(), data, childNodes);
+    const newNode = h(element.tagName.toLowerCase(), data, childNodes);
+    createdVNodes.push(newNode);
+    return newNode
 }
 
 // Builds the class object for the VNode.
