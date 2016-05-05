@@ -81,4 +81,26 @@ describe("#virtualizeString", () => {
         expect(virtualizeString("<div class='' />")).to.deep.equal(h('div'));
     });
 
+    it("should call the 'create' hook for each VNode that was created after the virtualization process is complete", () => {
+        const createSpy = sinon.spy();
+        const vnodes = virtualizeString("<ul><li>One</li><li>Fish</li><li>Two</li><li>Fish</li></ul><p>Red Fish, Blue Fish</p>", {
+            hooks: {
+                create: createSpy
+            }
+        });
+
+        // Helper to check that the create hook was called once for each created
+        // vnode.
+        function checkVNode(vnode) {
+            expect(createSpy).to.have.been.calledWithExactly(vnode);
+            if (vnode.children) {
+                vnode.children.forEach((cvnode) => {
+                    checkVNode(cvnode);
+                });
+            }
+        }
+        expect(createSpy).to.have.callCount(11);
+        vnodes.forEach(checkVNode);
+    });
+
 });
