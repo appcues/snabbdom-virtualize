@@ -1,12 +1,12 @@
 import virtualizeNode from './nodes';
 import virtualizeString from './strings';
 
-export default function (el) {
+export default function (el, options) {
     if (typeof el === 'string') {
-        return virtualizeString(el);
+        return virtualizeString(el, options);
     }
     else {
-        return virtualizeNode(el);
+        return virtualizeNode(el, options);
     }
 }
 

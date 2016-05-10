@@ -2,46 +2,58 @@ import parse from 'html-parse-stringify/lib/parse';
 import h from 'snabbdom/h';
 import { createTextVNode, transformName } from './utils';
 
-export default function(html) {
+export default function(html, options = {}) {
     // If there's nothing here, return null;
     if (!html) {
         return null;
     }
-    // Parse the string into the AST and convert to VNodes.
-    const vnodes = convertNodes(parse(html));
 
+    // Maintain a list of created vnodes so we can call the create hook.
+    const createdVNodes = [];
+
+    // Parse the string into the AST and convert to VNodes.
+    const vnodes = convertNodes(parse(html), createdVNodes);
+
+    let res;
     if (!vnodes) {
         // If there are no vnodes but there is string content, then the string
         // must be just text or at least invalid HTML that we should treat as
         // text (since the AST parser didn't find any well-formed HTML).
-        return createTextVNode(html);
+        res = toVNode({ type: 'text', content: html }, createdVNodes);
     }
     else if (vnodes.length === 1) {
         // If there's only one root node, just return it as opposed to an array.
-        return vnodes[0];
+        res = vnodes[0];
     }
     else {
         // Otherwise we have an array of VNodes, which we should return.
-        return vnodes;
+        res = vnodes;
     }
+
+    // Call the 'create' hook for each created node.
+    options.hooks && options.hooks.create && createdVNodes.forEach((node) => { options.hooks.create(node); });
+    return res;
 }
 
-function convertNodes(nodes) {
+function convertNodes(nodes, createdVNodes) {
     if (nodes instanceof Array && nodes.length > 0) {
-        return nodes.map((node) => { return toVNode(node); });
+        return nodes.map((node) => { return toVNode(node, createdVNodes); });
     }
     else {
         return undefined;
     }
 }
 
-function toVNode(node) {
+function toVNode(node, createdVNodes) {
+    let newNode;
     if (node.type === 'text') {
-        return createTextVNode(node.content);
+        newNode = createTextVNode(node.content);
     }
     else {
-        return h(node.name, buildVNodeData(node), convertNodes(node.children));
+        newNode = h(node.name, buildVNodeData(node), convertNodes(node.children, createdVNodes));
     }
+    createdVNodes.push(newNode);
+    return newNode;
 }
 
 function buildVNodeData(node) {

@@ -26,6 +26,7 @@
     "chai": "^3.5.0",
     "karma": "^0.13.19",
     "karma-chai": "^0.1.0",
+    "karma-chai-sinon": "^0.1.5",
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.1",
@@ -35,6 +36,7 @@
     "karma-webpack": "^1.7.0",
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0",
     "snabbdom": "^0.3.0",
     "webpack": "^1.12.12"
   },
@@ -42,6 +44,6 @@
     "snabbdom": "^0.3.0"
   },
   "dependencies": {
-    "html-parse-stringify": "^1.0.2"
+    "html-parse-stringify": "https://github.com/rayd/html-parse-stringify.git#7a9d6b4fb5eda23a7f8be0c5d5202da7b858b07e"
   }
 }

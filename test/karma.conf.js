@@ -4,7 +4,7 @@ module.exports = function (config) {
     var isCI = process.env['CI'];
 
     var baseConfig = {
-        frameworks: ['mocha', 'sinon', 'chai'],
+        frameworks: ['mocha', 'chai-sinon', 'sinon', 'chai'],
 
         files: [
             'tests/**/*.js'
