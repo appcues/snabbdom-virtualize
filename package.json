@@ -44,6 +44,6 @@
     "snabbdom": "^0.3.0"
   },
   "dependencies": {
-    "html-parse-stringify": "https://github.com/rayd/html-parse-stringify.git#7a9d6b4fb5eda23a7f8be0c5d5202da7b858b07e"
+    "html-parse-stringify2": "^1.1.0"
   }
 }
