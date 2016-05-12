@@ -81,6 +81,12 @@ describe("#virtualizeString", () => {
         expect(virtualizeString("<div class='' />")).to.deep.equal(h('div'));
     });
 
+    it("should decode HTML entities, since VNodes just deal with text content", () => {
+        expect(virtualizeString("<div>&amp; is an ampersand! and &frac12; is 1/2!</div>")).to.deep.equal(
+            h('div', [ '& is an ampersand! and ½ is 1/2!' ])
+        );
+    });
+
     it("should call the 'create' hook for each VNode that was created after the virtualization process is complete", () => {
         const createSpy = sinon.spy();
         const vnodes = virtualizeString("<ul><li>One</li><li>Fish</li><li>Two</li><li>Fish</li></ul><p>Red Fish, Blue Fish</p>", {
