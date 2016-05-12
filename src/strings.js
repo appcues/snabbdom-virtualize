@@ -1,4 +1,4 @@
-import parse from 'html-parse-stringify/lib/parse';
+import parse from 'html-parse-stringify2/lib/parse';
 import h from 'snabbdom/h';
 import { createTextVNode, transformName } from './utils';
 
