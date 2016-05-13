@@ -37,11 +37,11 @@
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "snabbdom": "^0.3.0",
+    "snabbdom": "~0",
     "webpack": "^1.12.12"
   },
   "peerDependencies": {
-    "snabbdom": "^0.3.0"
+    "snabbdom": "~0"
   },
   "dependencies": {
     "html-parse-stringify2": "^1.1.0"
