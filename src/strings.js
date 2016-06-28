@@ -92,7 +92,7 @@ function parseStyle(node) {
             const res = styleProp.split(':');
             const name = transformName(res[0].trim());
             if (name) {
-                const val = res[1].trim();
+                const val = res[1].replace('!important', '').trim();
                 memo ? memo[name] = val : memo = { [name]: val };
             }
             return memo;
