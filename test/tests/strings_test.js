@@ -81,6 +81,17 @@ describe("#virtualizeString", () => {
         expect(virtualizeString("<div class='' />")).to.deep.equal(h('div'));
     });
 
+    it("should handle comments in HTML strings", () => {
+        expect(
+            virtualizeString('<div> <!-- First comment --> <span>Hi</span> <!-- Another comment --> Something</div>')
+        ).to.deep.equal(
+            h('div', [
+                h('span', ['Hi']),
+                ' Something'
+            ])
+        );
+    });
+
     it("should decode HTML entities, since VNodes just deal with text content", () => {
         expect(virtualizeString("<div>&amp; is an ampersand! and &frac12; is 1/2!</div>")).to.deep.equal(
             h('div', [ '& is an ampersand! and ½ is 1/2!' ])

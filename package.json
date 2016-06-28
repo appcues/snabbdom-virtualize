@@ -44,6 +44,6 @@
     "snabbdom": "~0"
   },
   "dependencies": {
-    "html-parse-stringify2": "^1.1.0"
+    "html-parse-stringify2": "^1.2.1"
   }
 }
