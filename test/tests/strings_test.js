@@ -59,6 +59,17 @@ describe("#virtualizeString", () => {
         expect(virtualizeString("<div style='' />")).to.deep.equal(h('div'));
     });
 
+    it("should remove !important value from style values", () => {
+        expect(virtualizeString("<div style='display: none !important; z-index: 17' />")).to.deep.equal(
+            h('div', {
+                style: {
+                    display: 'none',
+                    zIndex: '17'
+                }
+            })
+        );
+    });
+
     it("should handle the special class attribute on nodes", () => {
         expect(virtualizeString("<div class='class1 class2 class3 ' />")).to.deep.equal(
             h('div', {
