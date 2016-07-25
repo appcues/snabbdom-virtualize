@@ -16,7 +16,7 @@ Require/import it.
 import virtualize from 'snabbdom-virtualize';
 
 // Require.
-let virtualize = require('snabbdom-virtualize');
+let virtualize = require('snabbdom-virtualize').default;
 ```
 
 Pass it a set of DOM nodes or a string representing DOM nodes with one root node.
