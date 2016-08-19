@@ -22,7 +22,8 @@ module.exports = function (config) {
                     exclude: /node_modules/,
                     loader: 'babel'
                 }]
-            }
+            },
+            externals: /jsdom/
         },
 
         webpackMiddleware: {
