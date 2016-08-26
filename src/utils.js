@@ -1,7 +1,7 @@
 import VNode from 'snabbdom/vnode';
 
 export function createTextVNode(text, context) {
-    return VNode(undefined, undefined, undefined, unescape(text, context));
+    return VNode(undefined, undefined, undefined, unescapeEntities(text, context));
 }
 
 export function transformName(name) {
@@ -19,7 +19,7 @@ const entityRegex = new RegExp('&[a-z0-9]+;', 'gi')
 // Element for setting innerHTML for transforming entities.
 let el = null;
 
-function unescape(text, context) {
+export function unescapeEntities(text, context) {
     // Create the element using the context if it doesn't exist.
     if (!el) {
         el = context.createElement('div');
