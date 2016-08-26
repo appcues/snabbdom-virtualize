@@ -107,6 +107,15 @@ describe("#virtualizeString", () => {
         expect(virtualizeString("<div>&amp; is an ampersand! and &frac12; is 1/2!</div>")).to.deep.equal(
             h('div', [ '& is an ampersand! and ½ is 1/2!' ])
         );
+        expect(virtualizeString("<a href='http://example.com?test=true&amp;something=false'>Test</a>")).to.deep.equal(
+            h('a', {
+                attrs: {
+                    href: 'http://example.com?test=true&something=false'
+                }
+            },[
+                'Test'
+            ])
+        );
     });
 
     it("should call the 'create' hook for each VNode that was created after the virtualization process is complete", () => {
