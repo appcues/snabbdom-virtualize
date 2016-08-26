@@ -1,7 +1,7 @@
 import VNode from 'snabbdom/vnode';
 
-export function createTextVNode(text) {
-    return VNode(undefined, undefined, undefined, unescape(text));
+export function createTextVNode(text, context) {
+    return VNode(undefined, undefined, undefined, unescape(text, context));
 }
 
 export function transformName(name) {
@@ -17,9 +17,13 @@ export function transformName(name) {
 // Regex for matching HTML entities.
 const entityRegex = new RegExp('&[a-z0-9]+;', 'gi')
 // Element for setting innerHTML for transforming entities.
-const el = document.createElement('div');
+let el = null;
 
-function unescape(text) {
+function unescape(text, context) {
+    // Create the element using the context if it doesn't exist.
+    if (!el) {
+        el = context.createElement('div');
+    }
     return text.replace(entityRegex, (entity) => {
         el.innerHTML = entity;
         return el.textContent;
