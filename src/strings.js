@@ -3,6 +3,9 @@ import h from 'snabbdom/h';
 import { createTextVNode, transformName } from './utils';
 
 export default function(html, options = {}) {
+
+    const context = options.context || document;
+
     // If there's nothing here, return null;
     if (!html) {
         return null;
@@ -12,14 +15,14 @@ export default function(html, options = {}) {
     const createdVNodes = [];
 
     // Parse the string into the AST and convert to VNodes.
-    const vnodes = convertNodes(parse(html), createdVNodes);
+    const vnodes = convertNodes(parse(html), createdVNodes, context);
 
     let res;
     if (!vnodes) {
         // If there are no vnodes but there is string content, then the string
         // must be just text or at least invalid HTML that we should treat as
         // text (since the AST parser didn't find any well-formed HTML).
-        res = toVNode({ type: 'text', content: html }, createdVNodes);
+        res = toVNode({ type: 'text', content: html }, createdVNodes, context);
     }
     else if (vnodes.length === 1) {
         // If there's only one root node, just return it as opposed to an array.
@@ -35,22 +38,22 @@ export default function(html, options = {}) {
     return res;
 }
 
-function convertNodes(nodes, createdVNodes) {
+function convertNodes(nodes, createdVNodes, context) {
     if (nodes instanceof Array && nodes.length > 0) {
-        return nodes.map((node) => { return toVNode(node, createdVNodes); });
+        return nodes.map((node) => { return toVNode(node, createdVNodes, context); });
     }
     else {
         return undefined;
     }
 }
 
-function toVNode(node, createdVNodes) {
+function toVNode(node, createdVNodes, context) {
     let newNode;
     if (node.type === 'text') {
-        newNode = createTextVNode(node.content);
+        newNode = createTextVNode(node.content, context);
     }
     else {
-        newNode = h(node.name, buildVNodeData(node), convertNodes(node.children, createdVNodes));
+        newNode = h(node.name, buildVNodeData(node), convertNodes(node.children, createdVNodes, context));
     }
     createdVNodes.push(newNode);
     return newNode;
