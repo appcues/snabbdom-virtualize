@@ -20,7 +20,7 @@ export default function virtualizeNodes(element, options = {}) {
 function convertNode(element, createdVNodes, context) {
     // If our node is a text node, then we only want to set the `text` part of
     // the VNode.
-    if (element.nodeType === Node.TEXT_NODE) {
+    if (element.nodeType === context.defaultView.Node.TEXT_NODE) {
         const newNode = createTextVNode(element.textContent, context);
         createdVNodes.push(newNode);
         return newNode
