@@ -14,10 +14,12 @@ export function transformName(name) {
     return `${firstChar}${name.substring(1)}`;
 }
 
+const context = (typeof document != 'undefined') ? document : require('jsdom').jsdom('<html></html>');
+
 // Regex for matching HTML entities.
 const entityRegex = new RegExp('&[a-z0-9]+;', 'gi')
 // Element for setting innerHTML for transforming entities.
-const el = document.createElement('div');
+const el = context.createElement('div');
 
 function unescape(text) {
     return text.replace(entityRegex, (entity) => {
