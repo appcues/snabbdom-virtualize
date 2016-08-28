@@ -19,6 +19,7 @@ function convertNode(element, createdVNodes) {
     // the VNode.
     if (element.nodeType === Node.TEXT_NODE) {
         const newNode = createTextVNode(element.textContent);
+        newNode.elm = element;
         createdVNodes.push(newNode);
         return newNode
     }
@@ -72,6 +73,7 @@ function convertNode(element, createdVNodes) {
         }
     }
     const newNode = h(element.tagName.toLowerCase(), data, childNodes);
+    newNode.elm = element;
     createdVNodes.push(newNode);
     return newNode
 }

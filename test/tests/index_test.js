@@ -1,18 +1,22 @@
 import virtualize from '../../src/index';
 import h from 'snabbdom/h';
 import VNode from 'snabbdom/vnode';
+import { extendVnode } from '../lib/helpers';
 
 describe("virtualize", () => {
 
     it("should handle a single node with no children", () => {
-        expect(virtualize(createElement('div'))).to.deep.equal(h('div'));
-        expect(virtualize(createElement('h1', 'class1 class2'))).to.deep.equal(h('h1', {
+        const el1 = createElement('div');
+        expect(virtualize(el1)).to.deep.equal(extendVnode(h('div'), el1));
+        const el2 = createElement('h1', 'class1 class2');
+        expect(virtualize(el2)).to.deep.equal(extendVnode(h('h1', {
             class: { class1: true, class2: true }
-        }));
-        expect(virtualize(createElement('span', 'class1 class2', {
+        }), el2));
+        const el3 = createElement('span', 'class1 class2', {
             style: 'z-index: 17; position: absolute; top: 0px; left: 50px;',
             title: 'test'
-        }))).to.deep.equal(h('span', {
+        });
+        expect(virtualize(el3)).to.deep.equal(extendVnode(h('span', {
             class: { class1: true, class2: true },
             style: {
                 zIndex: '17',
@@ -23,16 +27,16 @@ describe("virtualize", () => {
             attrs: {
                 title: 'test'
             }
-        }));
+        }), el3));
     });
 
     it("should handle data-* attributes correctly", () => {
         const el = document.createElement('div');
         el.setAttribute('data-test-val', 'something');
         expect(virtualize(el)).to.deep.equal(
-            h('div', {
+            extendVnode(h('div', {
                 attrs: { 'data-test-val': 'something' }
-            })
+            }), el)
         );
     });
 
@@ -50,44 +54,45 @@ describe("virtualize", () => {
         child2b.textContent = 'Second';
         child1.appendChild(child2a);
         child1.appendChild(child2b);
-        expect(virtualize(top)).to.deep.equal(
-            h('div', { class: { container: true }, style: { position: 'absolute' } }, [
-                h('ul', [
-                    h('li', { class: { first: true } }, [
-                        VNode(undefined, undefined, undefined, 'First')
-                    ]),
-                    h('li', { class: { second: true }, style: { fontWeight: '300' } }, [
-                        VNode(undefined, undefined, undefined, 'Second')
-                    ])
-                ])
-            ])
-        );
+        expect(virtualize(top)).to.deep.equal(extendVnode(h('div', { class: { container: true }, style: { position: 'absolute' } }, [
+            extendVnode(h('ul', [
+                extendVnode(h('li', { class: { first: true } }, [
+                    extendVnode(VNode(undefined, undefined, undefined, 'First'), child2a.firstChild)
+                ]), child2a),
+                extendVnode(h('li', { class: { second: true }, style: { fontWeight: '300' } }, [
+                    extendVnode(VNode(undefined, undefined, undefined, 'Second'), child2b.firstChild)
+                ]), child2b)
+            ]), child1)
+        ]), top));
     });
 
 
     it("should handle nodes with mixed text node and element children", () => {
         const top = createElement('p', 'container');
-        top.appendChild(document.createTextNode('Hey there, '));
+        const text1 = document.createTextNode('Hey there, ');
+        top.appendChild(text1);
         const link = createElement('a', null, { href: 'http://example.com'});
         link.textContent = 'check out this link';
         top.appendChild(link);
-        top.appendChild(document.createTextNode('. And this '));
+        const text2 = document.createTextNode('. And this ');
+        top.appendChild(text2);
         const code = createElement('code', 'javascript');
         code.textContent = 'niceLookingCode();';
         top.appendChild(code);
-        top.appendChild(document.createTextNode('.'));
+        const text3 = document.createTextNode('.');
+        top.appendChild(text3);
         expect(virtualize(top)).to.deep.equal(
-            h('p', { class: { container: true } }, [
-                VNode(undefined, undefined, undefined, 'Hey there, '),
-                h('a', { attrs: { href: 'http://example.com' }}, [
-                    VNode(undefined, undefined, undefined, 'check out this link')
-                ]),
-                VNode(undefined, undefined, undefined, '. And this '),
-                h('code', { class: { javascript: true } }, [
-                    VNode(undefined, undefined, undefined, 'niceLookingCode();')
-                ]),
-                VNode(undefined, undefined, undefined, '.')
-            ])
+            extendVnode(h('p', { class: { container: true } }, [
+                extendVnode(VNode(undefined, undefined, undefined, 'Hey there, '), text1),
+                extendVnode(h('a', { attrs: { href: 'http://example.com' }}, [
+                    extendVnode(VNode(undefined, undefined, undefined, 'check out this link'), link.firstChild)
+                ]), link),
+                extendVnode(VNode(undefined, undefined, undefined, '. And this '), text2),
+                extendVnode(h('code', { class: { javascript: true } }, [
+                    extendVnode(VNode(undefined, undefined, undefined, 'niceLookingCode();'), code.firstChild)
+                ]), code),
+                extendVnode(VNode(undefined, undefined, undefined, '.'), text3),
+            ]), top)
         );
     });
 
@@ -143,12 +148,12 @@ describe("virtualize", () => {
         el.onclick = spy;
         el.onblur = spy2;
         expect(virtualize(el)).to.deep.equal(
-            h('div', {
+            extendVnode(h('div', {
                 on: {
                     click: spy,
                     blur: spy2
                 }
-            })
+            }), el)
         );
     });
 
