@@ -1,6 +1,6 @@
 import parse from 'html-parse-stringify2/lib/parse';
 import h from 'snabbdom/h';
-import { createTextVNode, transformName } from './utils';
+import { createTextVNode, transformName, unescapeEntities } from './utils';
 
 export default function(html, options = {}) {
 
@@ -53,13 +53,13 @@ function toVNode(node, createdVNodes, context) {
         newNode = createTextVNode(node.content, context);
     }
     else {
-        newNode = h(node.name, buildVNodeData(node), convertNodes(node.children, createdVNodes, context));
+        newNode = h(node.name, buildVNodeData(node, context), convertNodes(node.children, createdVNodes, context));
     }
     createdVNodes.push(newNode);
     return newNode;
 }
 
-function buildVNodeData(node) {
+function buildVNodeData(node, context) {
     const data = {};
     if (!node.attrs) {
         return data;
@@ -67,7 +67,7 @@ function buildVNodeData(node) {
 
     const attrs = Object.keys(node.attrs).reduce((memo, name) => {
         if (name !== 'style' && name !== 'class') {
-            const val = node.attrs[name];
+            const val = unescapeEntities(node.attrs[name], context);
             memo ? memo[name] = val : memo = { [name]: val };
         }
         return memo;
