@@ -22,6 +22,7 @@ function convertNode(element, createdVNodes, context) {
     // the VNode.
     if (element.nodeType === context.defaultView.Node.TEXT_NODE) {
         const newNode = createTextVNode(element.textContent, context);
+        newNode.elm = element;
         createdVNodes.push(newNode);
         return newNode
     }
@@ -75,6 +76,7 @@ function convertNode(element, createdVNodes, context) {
         }
     }
     const newNode = h(element.tagName.toLowerCase(), data, childNodes);
+    newNode.elm = element;
     createdVNodes.push(newNode);
     return newNode
 }
