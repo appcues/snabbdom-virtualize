@@ -87,7 +87,9 @@ function getClasses(element) {
     const classes = {};
     if (className !== null && className.length > 0) {
         className.split(' ').forEach((className) => {
-            classes[className] = true;
+            if (className.trim().length) {
+                classes[className.trim()] = true;
+            }
         });
     }
     return classes;
