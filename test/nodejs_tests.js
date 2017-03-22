@@ -2,10 +2,10 @@
 const expect = require('chai').expect;
 const virtualizeString = require('../strings').default;
 const virtualizeNodes = require('../nodes').default;
-const h = require('snabbdom/h');
+const { h } = require('snabbdom/h');
 const jsdom = require('jsdom').jsdom;
 const extendVnode = require('./lib/helpers').extendVnode;
-const VNode = require('snabbdom/vnode');
+const { vnode: VNode } = require('snabbdom/vnode');
 
 
 const opts = { context: (typeof document != 'undefined') ? document : jsdom('<html></html>') };
