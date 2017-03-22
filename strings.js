@@ -1,1 +1,1 @@
-module.exports = require('./lib/strings');
+module.exports = require('./lib/strings').default;

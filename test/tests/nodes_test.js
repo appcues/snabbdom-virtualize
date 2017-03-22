@@ -1,5 +1,5 @@
-import virtualizeNodes from '../../src/nodes';
-import h from 'snabbdom/h';
+const virtualizeNodes = require('../../nodes');
+const { h } = require('snabbdom/h');
 
 describe("#virtualizeNodes", () => {
 

@@ -1,8 +1,10 @@
-import parse from 'html-parse-stringify2/lib/parse';
+import { parse, ASTNode } from 'html-parse-stringify2';
 import h from 'snabbdom/h';
+import { VNode, VNodeData } from 'snabbdom/vnode'
 import { createTextVNode, transformName, unescapeEntities } from './utils';
+import { Options } from './interfaces'
 
-export default function(html, options = {}) {
+export default function(html: string, options: Options = {}) {
 
     const context = options.context || document;
 
@@ -12,7 +14,7 @@ export default function(html, options = {}) {
     }
 
     // Maintain a list of created vnodes so we can call the create hook.
-    const createdVNodes = [];
+    const createdVNodes: VNode[] = [];
 
     // Parse the string into the AST and convert to VNodes.
     const vnodes = convertNodes(parse(html), createdVNodes, context);
@@ -38,7 +40,7 @@ export default function(html, options = {}) {
     return res;
 }
 
-function convertNodes(nodes, createdVNodes, context) {
+function convertNodes(nodes: ASTNode[], createdVNodes: VNode[], context: HTMLDocument): VNode[] | undefined {
     if (nodes instanceof Array && nodes.length > 0) {
         return nodes.map((node) => { return toVNode(node, createdVNodes, context); });
     }
@@ -47,7 +49,7 @@ function convertNodes(nodes, createdVNodes, context) {
     }
 }
 
-function toVNode(node, createdVNodes, context) {
+function toVNode(node: ASTNode, createdVNodes: VNode[], context: HTMLDocument) {
     let newNode;
     if (node.type === 'text') {
         newNode = createTextVNode(node.content, context);
@@ -59,8 +61,8 @@ function toVNode(node, createdVNodes, context) {
     return newNode;
 }
 
-function buildVNodeData(node, context) {
-    const data = {};
+function buildVNodeData(node: ASTNode, context: HTMLDocument) {
+    const data: VNodeData = {};
     if (!node.attrs) {
         return data;
     }
@@ -71,7 +73,7 @@ function buildVNodeData(node, context) {
             memo ? memo[name] = val : memo = { [name]: val };
         }
         return memo;
-    }, null);
+    }, null as null | { [key: string]: string });
     if (attrs) {
         data.attrs = attrs;
     }
@@ -89,7 +91,7 @@ function buildVNodeData(node, context) {
     return data;
 }
 
-function parseStyle(node) {
+function parseStyle(node: ASTNode) {
     try {
         return node.attrs.style.split(';').reduce((memo, styleProp) => {
             const res = styleProp.split(':');
@@ -99,14 +101,14 @@ function parseStyle(node) {
                 memo ? memo[name] = val : memo = { [name]: val };
             }
             return memo;
-        }, null);
+        }, null as null | { [key: string]: string });
     }
     catch (e) {
         return null;
     }
 }
 
-function parseClass(node) {
+function parseClass(node: ASTNode) {
     try {
         return node.attrs.class.split(' ').reduce((memo, className) => {
             className = className.trim();
@@ -114,7 +116,7 @@ function parseClass(node) {
                 memo ? memo[className] = true : memo = { [className]: true };
             }
             return memo;
-        }, null);
+        }, null as null | { [key: string]: boolean });
     }
     catch (e) {
         return null;

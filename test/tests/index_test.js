@@ -1,7 +1,7 @@
-import virtualize from '../../src/index';
-import h from 'snabbdom/h';
-import VNode from 'snabbdom/vnode';
-import { extendVnode } from '../lib/helpers';
+const virtualize = require('../..');
+const { h } = require('snabbdom/h');
+const { vnode } = require('snabbdom/vnode');
+const { extendVnode } = require('../lib/helpers');
 
 describe("virtualize", () => {
 
@@ -57,10 +57,10 @@ describe("virtualize", () => {
         expect(virtualize(top)).to.deep.equal(extendVnode(h('div', { class: { container: true }, style: { position: 'absolute' } }, [
             extendVnode(h('ul', [
                 extendVnode(h('li', { class: { first: true } }, [
-                    extendVnode(VNode(undefined, undefined, undefined, 'First'), child2a.firstChild)
+                    extendVnode(vnode(undefined, undefined, undefined, 'First'), child2a.firstChild)
                 ]), child2a),
                 extendVnode(h('li', { class: { second: true }, style: { fontWeight: '300' } }, [
-                    extendVnode(VNode(undefined, undefined, undefined, 'Second'), child2b.firstChild)
+                    extendVnode(vnode(undefined, undefined, undefined, 'Second'), child2b.firstChild)
                 ]), child2b)
             ]), child1)
         ]), top));
@@ -83,15 +83,15 @@ describe("virtualize", () => {
         top.appendChild(text3);
         expect(virtualize(top)).to.deep.equal(
             extendVnode(h('p', { class: { container: true } }, [
-                extendVnode(VNode(undefined, undefined, undefined, 'Hey there, '), text1),
+                extendVnode(vnode(undefined, undefined, undefined, 'Hey there, '), text1),
                 extendVnode(h('a', { attrs: { href: 'http://example.com' }}, [
-                    extendVnode(VNode(undefined, undefined, undefined, 'check out this link'), link.firstChild)
+                    extendVnode(vnode(undefined, undefined, undefined, 'check out this link'), link.firstChild)
                 ]), link),
-                extendVnode(VNode(undefined, undefined, undefined, '. And this '), text2),
+                extendVnode(vnode(undefined, undefined, undefined, '. And this '), text2),
                 extendVnode(h('code', { class: { javascript: true } }, [
-                    extendVnode(VNode(undefined, undefined, undefined, 'niceLookingCode();'), code.firstChild)
+                    extendVnode(vnode(undefined, undefined, undefined, 'niceLookingCode();'), code.firstChild)
                 ]), code),
-                extendVnode(VNode(undefined, undefined, undefined, '.'), text3),
+                extendVnode(vnode(undefined, undefined, undefined, '.'), text3),
             ]), top)
         );
     });
@@ -115,14 +115,14 @@ describe("virtualize", () => {
         expect(virtualize('<span>This is something.</span>'))
             .to.deep.equal(
                 h('span', [
-                    VNode(undefined, undefined, undefined, 'This is something.')
+                    vnode(undefined, undefined, undefined, 'This is something.')
                 ])
             );
     });
 
     it("should handle a single text node", () => {
         expect(virtualize('Text content!')).to.deep.equal(
-            VNode(undefined, undefined, undefined, 'Text content!')
+            vnode(undefined, undefined, undefined, 'Text content!')
         );
     });
 

@@ -1,10 +1,10 @@
-import VNode from 'snabbdom/vnode';
+import vnode from 'snabbdom/vnode';
 
-export function createTextVNode(text, context) {
-    return VNode(undefined, undefined, undefined, unescapeEntities(text, context));
+export function createTextVNode(text: string, context: HTMLDocument) {
+    return vnode(undefined, undefined, undefined, unescapeEntities(text, context), undefined);
 }
 
-export function transformName(name) {
+export function transformName(name: string) {
     // Replace -a with A to help camel case style property names.
     name = name.replace( /-(\w)/g, function _replace( $1, $2 ) {
         return $2.toUpperCase();
@@ -17,9 +17,9 @@ export function transformName(name) {
 // Regex for matching HTML entities.
 const entityRegex = new RegExp('&[a-z0-9]+;', 'gi')
 // Element for setting innerHTML for transforming entities.
-let el = null;
+let el: HTMLDivElement | null = null;
 
-export function unescapeEntities(text, context) {
+export function unescapeEntities(text: string, context: HTMLDocument) {
     // Create the element using the context if it doesn't exist.
     if (!el) {
         el = context.createElement('div');

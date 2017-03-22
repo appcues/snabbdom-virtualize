@@ -1,5 +1,5 @@
-import virtualizeString from '../../src/strings';
-import h from 'snabbdom/h';
+const { default: virtualizeString } = require('../../lib/strings');
+const { h } = require('snabbdom/h');
 
 describe("#virtualizeString", () => {
 

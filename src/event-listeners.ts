@@ -1,5 +1,6 @@
 // List from https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers.
-export default [
+
+const eventNames: Array<keyof HTMLElement> = [
     'onabort',
     'onautocomplete',
     'onautocompleteerror',
@@ -63,3 +64,5 @@ export default [
     'onvolumechange',
     'onwaiting'
 ];
+
+export default eventNames;

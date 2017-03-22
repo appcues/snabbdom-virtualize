@@ -1,11 +1,11 @@
 "use strict";
 const expect = require('chai').expect;
-const virtualizeString = require('../strings').default;
-const virtualizeNodes = require('../nodes').default;
+const virtualizeString = require('../strings')
+const virtualizeNodes = require('../nodes')
 const { h } = require('snabbdom/h');
 const jsdom = require('jsdom').jsdom;
 const extendVnode = require('./lib/helpers').extendVnode;
-const { vnode: VNode } = require('snabbdom/vnode');
+const { vnode } = require('snabbdom/vnode');
 
 
 const opts = { context: (typeof document != 'undefined') ? document : jsdom('<html></html>') };
@@ -43,10 +43,10 @@ describe("In a nodejs environment", () => {
             ul.innerHTML = "<li>One</li><li>Fish</li><li>Two</li><li>Fish</li>";
             expect(virtualizeNodes(ul, opts)).to.deep.equal(
                 extendVnode(h('ul', [
-                    extendVnode(h('li', [ extendVnode(VNode(undefined, undefined, undefined, 'One'), ul.childNodes[0].firstChild) ]), ul.childNodes[0]),
-                    extendVnode(h('li', [ extendVnode(VNode(undefined, undefined, undefined, 'Fish'), ul.childNodes[1].firstChild) ]), ul.childNodes[1]),
-                    extendVnode(h('li', [ extendVnode(VNode(undefined, undefined, undefined, 'Two'), ul.childNodes[2].firstChild) ]), ul.childNodes[2]),
-                    extendVnode(h('li', [ extendVnode(VNode(undefined, undefined, undefined, 'Fish'), ul.childNodes[3].firstChild) ]), ul.childNodes[3])
+                    extendVnode(h('li', [ extendVnode(vnode(undefined, undefined, undefined, 'One'), ul.childNodes[0].firstChild) ]), ul.childNodes[0]),
+                    extendVnode(h('li', [ extendVnode(vnode(undefined, undefined, undefined, 'Fish'), ul.childNodes[1].firstChild) ]), ul.childNodes[1]),
+                    extendVnode(h('li', [ extendVnode(vnode(undefined, undefined, undefined, 'Two'), ul.childNodes[2].firstChild) ]), ul.childNodes[2]),
+                    extendVnode(h('li', [ extendVnode(vnode(undefined, undefined, undefined, 'Fish'), ul.childNodes[3].firstChild) ]), ul.childNodes[3])
                 ]), ul)
             );
         });
@@ -55,7 +55,7 @@ describe("In a nodejs environment", () => {
             const div = doc.createElement('div');
             div.innerHTML = "&amp; is an ampersand! and &frac12; is 1/2!";
             expect(virtualizeNodes(div, opts)).to.deep.equal(
-                extendVnode(h('div', [ extendVnode(VNode(undefined, undefined, undefined,'& is an ampersand! and ½ is 1/2!'), div.firstChild) ]), div)
+                extendVnode(h('div', [ extendVnode(vnode(undefined, undefined, undefined,'& is an ampersand! and ½ is 1/2!'), div.firstChild) ]), div)
             );
         });
     });
