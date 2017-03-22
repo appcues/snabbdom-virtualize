@@ -1,1 +1,1 @@
-module.exports = require('./lib/nodes');
+module.exports = require('./lib/nodes').default;

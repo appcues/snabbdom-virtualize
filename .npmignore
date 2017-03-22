@@ -2,4 +2,4 @@ src
 test
 .travis.yml
 .gitignore
-.babelrc
+tsconfig.json
