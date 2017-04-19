@@ -34,6 +34,18 @@ describe("#virtualizeString", () => {
             );
     });
 
+    it("should handle control characters in attribute values", () => {
+        const input = "<textarea placeholder='Hey Usher, \n\nAre these modals for real?!' class='placeholder-value'></textarea>";
+        expect(virtualizeString(input)).to.deep.equal(h('textarea', {
+            attrs: {
+                placeholder: 'Hey Usher, \n\nAre these modals for real?!'
+            },
+            class: {
+                'placeholder-value': true
+            }
+        }))
+    });
+
     it("should handle the special style attribute on nodes", () => {
         expect(virtualizeString("<div title='This is it!' style='display: none' />")).to.deep.equal(
             h('div', {
