@@ -97,7 +97,10 @@ describe("#virtualizeString", () => {
             virtualizeString('<div> <!-- First comment --> <span>Hi</span> <!-- Another comment --> Something</div>')
         ).to.deep.equal(
             h('div', [
+                ' ',
+                ' ',
                 h('span', ['Hi']),
+                ' ',
                 ' Something'
             ])
         );
