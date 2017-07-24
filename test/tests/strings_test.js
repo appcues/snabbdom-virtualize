@@ -140,7 +140,7 @@ describe("#virtualizeString", () => {
         vnodes.forEach(checkVNode);
     });
 
-    it.only("should keep whitespace that is between elements", () => {
+    it("should keep whitespace that is between elements", () => {
         const vnodes = virtualizeString("<span>foo</span> <span>bar</span>");
         expect(vnodes.length).to.equal(3)
     })
