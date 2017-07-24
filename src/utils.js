@@ -15,7 +15,7 @@ export function transformName(name) {
 }
 
 // Regex for matching HTML entities.
-const entityRegex = new RegExp('&[a-z0-9]+;', 'gi')
+const entityRegex = new RegExp('&[a-z0-9#]+;', 'gi')
 // Element for setting innerHTML for transforming entities.
 let el = null;
 

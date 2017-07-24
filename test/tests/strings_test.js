@@ -104,8 +104,8 @@ describe("#virtualizeString", () => {
     });
 
     it("should decode HTML entities, since VNodes just deal with text content", () => {
-        expect(virtualizeString("<div>&amp; is an ampersand! and &frac12; is 1/2!</div>")).to.deep.equal(
-            h('div', [ '& is an ampersand! and ½ is 1/2!' ])
+        expect(virtualizeString("<div>&amp; is an ampersand! and &frac12; is 1/2! and &#xA9; is copyright!</div>")).to.deep.equal(
+            h('div', [ '& is an ampersand! and ½ is 1/2! and © is copyright!' ])
         );
         expect(virtualizeString("<a href='http://example.com?test=true&amp;something=false'>Test</a>")).to.deep.equal(
             h('a', {
