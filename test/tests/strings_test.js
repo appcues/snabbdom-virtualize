@@ -128,8 +128,8 @@ describe("#virtualizeString", () => {
                     href: 'http://example.com?test=true&something=false'
                 }
             },[
-                    'Test'
-                ])
+                'Test'
+            ])
         );
     });
 
@@ -157,8 +157,8 @@ describe("#virtualizeString", () => {
 
     it("should keep whitespace that is between elements", () => {
         const vnodes = virtualizeString("<span>foo</span> <span>bar</span>");
-        expect(vnodes.length).to.equal(3);
-    });
+        expect(vnodes.length).to.equal(3)
+    })
 
     it("should handle attributes with empty value", () => {
         const input = virtualizeString("<input readonly />");
