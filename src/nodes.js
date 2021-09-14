@@ -1,4 +1,4 @@
-import h from 'snabbdom/h';
+import { h } from 'snabbdom';
 import { createTextVNode, transformName } from './utils';
 import listeners from './event-listeners';
 

@@ -1,4 +1,4 @@
-import VNode from 'snabbdom/vnode';
+import { vnode as VNode } from 'snabbdom';
 
 export function createTextVNode(text, context) {
     return VNode(undefined, undefined, undefined, unescapeEntities(text, context));

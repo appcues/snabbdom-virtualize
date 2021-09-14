@@ -1,5 +1,5 @@
 import parse from 'html-parse-stringify2/lib/parse';
-import h from 'snabbdom/h';
+import { h } from 'snabbdom';
 import { createTextVNode, transformName, unescapeEntities } from './utils';
 
 export default function(html, options = {}) {
