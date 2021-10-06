@@ -1,5 +1,5 @@
 import virtualizeString from '../../src/strings';
-import h from 'snabbdom/h';
+import { h } from 'snabbdom';
 
 describe("#virtualizeString", () => {
 

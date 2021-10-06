@@ -1,6 +1,5 @@
 import virtualize from '../../src/index';
-import h from 'snabbdom/h';
-import VNode from 'snabbdom/vnode';
+import { h, vnode as VNode } from 'snabbdom';
 import { extendVnode } from '../lib/helpers';
 
 describe("virtualize", () => {

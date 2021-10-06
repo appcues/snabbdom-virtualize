@@ -1,5 +1,5 @@
 import virtualizeNodes from '../../src/nodes';
-import h from 'snabbdom/h';
+import { h } from 'snabbdom';
 
 describe("#virtualizeNodes", () => {
 

@@ -1,6 +1,6 @@
 {
-  "name": "snabbdom-virtualize",
-  "version": "0.7.0",
+  "name": "@appcues/snabbdom-virtualize",
+  "version": "1.0.0-beta.0",
   "description": "Library for turning strings and DOM nodes into virtual DOM nodes compatible with snabbdom.",
   "author": {
     "name": "Ray Di Ciaccio",
@@ -38,12 +38,12 @@
     "mocha": "^2.4.5",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "snabbdom": "~0.6.6",
+    "snabbdom": "3.1.0",
     "socket.io": "1.4.6",
     "webpack": "^1.12.12"
   },
   "peerDependencies": {
-    "snabbdom": "~0.6.6"
+    "snabbdom": "^3.1.0"
   },
   "dependencies": {
     "html-parse-stringify2": "^2"
