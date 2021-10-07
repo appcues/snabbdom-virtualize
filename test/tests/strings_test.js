@@ -159,4 +159,15 @@ describe("#virtualizeString", () => {
         const vnodes = virtualizeString("<span>foo</span> <span>bar</span>");
         expect(vnodes.length).to.equal(3)
     })
+
+    it("should handle attributes with empty value", () => {
+        const input = virtualizeString("<input readonly />");
+        expect(input).to.deep.equal(
+            h('input', {
+                attrs: {
+                    readonly: ''
+                }
+            })
+        );
+    });
 });

@@ -19,7 +19,7 @@ const entityRegex = new RegExp('&[a-z0-9#]+;', 'gi')
 // Element for setting innerHTML for transforming entities.
 let el = null;
 
-export function unescapeEntities(text, context) {
+export function unescapeEntities(text = '', context) {
     // Create the element using the context if it doesn't exist.
     if (!el) {
         el = context.createElement('div');
