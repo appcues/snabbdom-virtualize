@@ -31,7 +31,7 @@
     "karma-chrome-launcher": "^0.2.2",
     "karma-firefox-launcher": "^0.1.7",
     "karma-mocha": "^0.2.1",
-    "karma-sauce-launcher": "^0.3.0",
+    "karma-sauce-launcher": "^4.0.0",
     "karma-sinon": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
